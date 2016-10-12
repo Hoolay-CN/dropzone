@@ -260,7 +260,7 @@
           _ref = file.previewElement.querySelectorAll("[data-dz-name]");
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             node = _ref[_i];
-            node.textContent = this._renameFilename(file.name);
+            node.textContent = this._renameFilename(file.name, file);
           }
           _ref1 = file.previewElement.querySelectorAll("[data-dz-size]");
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
@@ -721,11 +721,11 @@
       }
     };
 
-    Dropzone.prototype._renameFilename = function(name) {
+    Dropzone.prototype._renameFilename = function(name, file) {
       if (typeof this.options.renameFilename !== "function") {
         return name;
       }
-      return this.options.renameFilename(name);
+      return this.options.renameFilename(name, file);
     };
 
     Dropzone.prototype.getFallbackForm = function() {
@@ -1329,9 +1329,7 @@
       progressObj = (_ref = xhr.upload) != null ? _ref : xhr;
       progressObj.onprogress = updateProgress;
       headers = {
-        "Accept": "application/json",
-        "Cache-Control": "no-cache",
-        "X-Requested-With": "XMLHttpRequest"
+        "Accept": "application/json"
       };
       if (this.options.headers) {
         extend(headers, this.options.headers);
@@ -1377,7 +1375,7 @@
         }
       }
       for (i = _m = 0, _ref5 = files.length - 1; 0 <= _ref5 ? _m <= _ref5 : _m >= _ref5; i = 0 <= _ref5 ? ++_m : --_m) {
-        formData.append(this._getParamName(i), files[i], this._renameFilename(files[i].name));
+        formData.append(this._getParamName(i), files[i], this._renameFilename(files[i].name, files[i]));
       }
       return this.submitRequest(xhr, formData, files);
     };
